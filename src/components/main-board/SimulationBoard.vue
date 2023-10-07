@@ -1,5 +1,20 @@
 <template>
-  <board-control @welcome="runGame" @randomize="randomizeBoard"></board-control>
+  <board-control
+    @welcome="
+      () => {
+        this.gameState = 'running';
+        this.runGame();
+      }
+    "
+    @randomize="randomizeBoard"
+    @stop="
+      () => {
+        this.gameState = 'stop';
+      }
+    "
+    :generation="generation"
+    :isRunning="gameState === 'running'"
+  ></board-control>
 
   <div class="board">
     <div class="grid" id="myGrid">
@@ -12,7 +27,9 @@
             : 'background-color: black;'
         "
         v-for="i in 1200"
-        :key="'cell' + i"
+        :id="i"
+        :key="i"
+        @click="markCell"
       ></div>
     </div>
   </div>
@@ -35,22 +52,21 @@ export default {
       columns: 40,
       board: null,
       gameState: "inactive",
+      gameSpeed: 500,
+      generation: 0,
     };
   },
 
   methods: {
     markCell: function (event) {
       //   console.log(event.target.style.backgroundColor);
-      if (event.target.style.backgroundColor === this.bgColorActive) {
-        event.target.style.backgroundColor = this.bgColorInactive;
-      } else {
-        event.target.style.backgroundColor = this.bgColorActive;
-      }
+      let id = event.target.id;
+      this.board[id] = !this.board[id];
     },
 
     randomizeBoard() {
       for (let i = 0; i < this.rows * this.columns + 1; i++) {
-        this.board[i] = Math.random(0, 1) < 0.5 ? true : false;
+        this.board[i] = Math.random(0, 1) < 0.3 ? true : false;
       }
     },
 
@@ -74,9 +90,11 @@ export default {
         -this.columns - 1,
         -this.columns + 1,
       ];
-      for (const d in directions) {
+      // console.log(directions);
+      for (const d of directions) {
         let newX = currCell + d;
-        if (newX >= 0 && newX <= 1200 && this.board[newX]) {
+
+        if (newX >= 0 && newX < 1200 && this.board[newX] && neighbours < 4) {
           neighbours++;
         }
       }
@@ -84,23 +102,27 @@ export default {
     },
 
     runGame() {
+      if (this.gameState !== "running") return;
+      let newBoard = this.board.slice();
       for (let i = 0; i < this.rows * this.columns + 1; i++) {
         let n = this.findNeighbours(i);
-        if (this.board[i]) {
+        if (newBoard[i]) {
           if (n === 2 || n === 3) {
-            this.board[i] = true;
+            newBoard[i] = true;
           } else {
-            this.board[i] = false;
+            newBoard[i] = false;
           }
         } else {
-          if (!this.board[i] && n === 3) {
-            this.board[i] = true;
+          if (!newBoard[i] && n === 3) {
+            newBoard[i] = true;
           }
         }
       }
-      // window.setTimeout(() => {
-      //   this.runGame();
-      // }, 100);
+      this.board = newBoard;
+      this.generation++;
+      window.setTimeout(() => {
+        this.runGame();
+      }, this.gameSpeed);
     },
   },
   created() {

@@ -1,9 +1,10 @@
 <template>
   <div id="board-control">
     <div class="button-group">
-      <button @click="$emit('welcome')">Start</button>
-      <button>Stop</button>
+      <button v-if="!isRunning" @click="$emit('welcome')">Start</button>
+      <button v-if="isRunning" @click="$emit('stop')">Stop</button>
       <button @click="$emit('randomize')">Randomize</button>
+      <span>Generation: {{ generation }}</span>
     </div>
   </div>
 </template>
@@ -11,6 +12,7 @@
 <script>
 export default {
   emit: ["welcome"],
+  props: ["generation", "isRunning"],
   setup() {},
 };
 </script>
