@@ -1,26 +1,28 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <nav-component></nav-component>
+  <!-- <AppHeader></AppHeader> -->
+  <simulation-board></simulation-board>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import SimulationBoard from "./components/main-board/SimulationBoard.vue";
+import NavComponent from "./components/navbar/NavComponent.vue";
+// import AppHeader from "./components/AppHeader.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    // AppHeader,
+    NavComponent,
+    SimulationBoard,
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+$background-color-nav: #233142;
+$secondary-color: #f95959;
+
+body {
+  background-color: $background-color-nav;
 }
 </style>
