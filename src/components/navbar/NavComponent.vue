@@ -3,7 +3,7 @@
     <div id="navigation-bar">
       <nav>
         <ul>
-          <li><img src="../../assets/logo.png" alt="" />ue Js</li>
+          <!-- <li><img src="../../assets/logo.png" alt="" />ue Js</li> -->
           <li>The Game of Life</li>
         </ul>
       </nav>
@@ -12,9 +12,6 @@
 </template>
 
 <style scoped lang="scss">
-
-@import url("https://fonts.googleapis.com/css?family=Fira+Sans");
-
 $background-color-nav: #233142;
 $font-color: #e3e3e3;
 $secondary-color: #f95959;
@@ -30,15 +27,14 @@ $secondary-color: #f95959;
 nav {
   overflow: hidden;
   background-color: $background-color-nav;
+
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  img {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    margin: 0;
+  i {
+    height: 50px;
+    width: 50px;
   }
   ul {
     text-align: start;
@@ -48,13 +44,33 @@ nav {
     padding: 15px;
     li {
       display: inline;
-      font-family: "Fira Sans", sans-serif;
-      font-size: 1rem;
+      font-size: 1.7rem;
       color: $font-color;
       margin-right: 2rem;
     }
   }
 }
+
+// .myBtn {
+//   padding: 0.4rem 2.2rem !important;
+//   // margin: 2%;
+//   font-size: 1rem;
+//   position: relative;
+//   top: -0.2rem;
+//   cursor: pointer;
+//   color: #333;
+//   font-weight: 600;
+//   border: 2px solid #333;
+//   background-color: white;
+//   border-radius: 5px;
+//   transition: all 0.3s ease;
+// }
+
+// .myBtn:hover {
+//   color: $font-color;
+//   background-color: $secondary-color;
+//   border: 2px solid $background-color-nav;
+// }
 
 .content {
   text-align: center;

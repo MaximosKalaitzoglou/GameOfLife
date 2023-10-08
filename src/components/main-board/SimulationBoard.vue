@@ -12,8 +12,10 @@
         this.gameState = 'stop';
       }
     "
+    @reset="reset"
     :generation="generation"
     :isRunning="gameState === 'running'"
+    :cellsAlive="cellsAlive"
   ></board-control>
 
   <div class="board">
@@ -29,7 +31,13 @@
         v-for="i in 1200"
         :id="i"
         :key="i"
-        @click="markCell"
+        @mousedown="markCell"
+        @mouseover="markCellOver"
+        @mouseup="
+          () => {
+            mouseDown = false;
+          }
+        "
       ></div>
     </div>
   </div>
@@ -46,28 +54,38 @@ export default {
   setup() {},
   data() {
     return {
-      bgColorActive: "#f95959",
-      bgColorInactive: "black",
       rows: 30,
       columns: 40,
       board: null,
       gameState: "inactive",
       gameSpeed: 500,
       generation: 0,
+      mouseDown: false,
+      cellsAlive: 0,
     };
   },
 
   methods: {
     markCell: function (event) {
       //   console.log(event.target.style.backgroundColor);
+      this.mouseDown = true;
       let id = event.target.id;
       this.board[id] = !this.board[id];
+      this.cellsAlive = this.getAliveCells();
+    },
+    markCellOver: function (event) {
+      if (this.mouseDown) {
+        let id = event.target.id;
+        this.board[id] = !this.board[id];
+      }
+      this.cellsAlive = this.getAliveCells();
     },
 
     randomizeBoard() {
       for (let i = 0; i < this.rows * this.columns + 1; i++) {
         this.board[i] = Math.random(0, 1) < 0.3 ? true : false;
       }
+      this.cellsAlive = this.getAliveCells();
     },
 
     makeBoard() {
@@ -90,8 +108,16 @@ export default {
         -this.columns - 1,
         -this.columns + 1,
       ];
+
       // console.log(directions);
       for (const d of directions) {
+        if (currCell % 40 === 0 && currCell !== 0) {
+          if (d === 1 || d === this.columns + 1 || d === -this.columns + 1)
+            continue;
+        } else if (currCell % 40 === 1) {
+          if (d === -1 || d === -this.columns - 1 || d === this.columns - 1)
+            continue;
+        }
         let newX = currCell + d;
 
         if (newX >= 0 && newX < 1200 && this.board[newX] && neighbours < 4) {
@@ -99,6 +125,13 @@ export default {
         }
       }
       return neighbours;
+    },
+
+    reset() {
+      this.gameState = "";
+      this.generation = 0;
+      this.board = this.makeBoard();
+      this.cellsAlive = 0;
     },
 
     runGame() {
@@ -118,11 +151,16 @@ export default {
           }
         }
       }
+      this.cellsAlive = this.getAliveCells();
       this.board = newBoard;
+
       this.generation++;
       window.setTimeout(() => {
         this.runGame();
       }, this.gameSpeed);
+    },
+    getAliveCells() {
+      return this.board.filter(Boolean).length;
     },
   },
   created() {
@@ -146,8 +184,12 @@ $secondary-color: #f95959;
   background-color: #e4c6c6;
   .grid-item {
     width: 20px;
+    background-color: black;
     height: 20px;
     border: 1px solid #333;
+    &:hover {
+      background-color: #fc4444;
+    }
   }
 }
 
