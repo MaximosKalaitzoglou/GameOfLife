@@ -30,7 +30,7 @@ nav {
 
   position: absolute;
   top: 0;
-  left: 0;
+  left: 1em;
   width: 100%;
   i {
     height: 50px;

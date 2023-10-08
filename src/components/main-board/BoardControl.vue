@@ -40,10 +40,7 @@ export default {
 $background-color-nav: #233142;
 $font-color: #e3e3e3;
 $secondary-color: #f95959;
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
-}
+
 div {
   position: absolute;
   top: 3rem;
@@ -56,10 +53,10 @@ div {
   .button-group {
     background-color: black;
     border-radius: 1rem;
-    width: 1000px;
+    width: 900px;
   }
   span {
-    font-size: 1rem;
+    font-size: 1em;
     font-weight: 500;
 
     text-transform: uppercase;
@@ -85,7 +82,7 @@ div {
     cursor: pointer;
     display: flex;
     align-self: center;
-    font-size: 1rem;
+    font-size: 1em;
     font-weight: 400;
     line-height: 1;
     margin: 10px;

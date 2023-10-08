@@ -23,5 +23,7 @@ $secondary-color: #f95959;
 body {
   background-color: $background-color-nav;
   overflow-x: hidden;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 </style>
